@@ -1,3 +1,6 @@
+# import McGill chord progressions
+
+
 
 from godelchords import *
 

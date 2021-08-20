@@ -1,0 +1,353 @@
+Data comes in two-bit chunks. In general 00, 01 and 10 are the three most likely choices. 11 means that there is another two-bit chunk coming, with the next three most likely choices, and 11 meaning there is another chunk coming.
+
+
+Function and Version
+	00 - plain original loop forever - fPlain = "00"
+	01 - special modes - fSpecial_= "01"						# not used
+		00 - loop n times - fsLoop = "0100"
+			XX - number
+		01 - standard arrangement - fsStandard_ = "0101"		# not used
+			00 - verse, chorus - fssVc = "010100"
+			01 - verse, verse, chorus - fssVvc = "010101"
+			10 - verse, verse, verse, chorus
+			
+			verse, verse, bridge,
+		
+	10 - Length of chord if not one bar - fLength
+		00 - half bar - flHalf = "1000"
+		01 - 2 bars - fl2 = "1001"
+		10 - 4 bars - fl4 = "1010"
+		11:	00 quarter bar - flQuarter = "101100"
+			01 8 bars - fl8 - "101101"
+	11 - future switches/options/modes
+		00 - ?
+		01 - ?
+		10 - ?
+		11 - even more
+			00 - ?
+			...
+Key
+	00 - 0 - C - kC = "00" 
+	01 - 1 - G - kG = "01"
+	10 - 2 - D - kD = "10"
+	11 - NEXT
+		00 -
+		--
+		--
+X Key/Chord
+X 	0 - C
+X 	1 - G
+X 	2 - F
+X		0 - A
+X		1 - D
+X 		2 - E
+X 
+X			0 - Bb
+X 			1 -
+X 			2 - 
+X 				0
+X 				1
+X 				2
+
+Arrangement
+	0	Looping
+	1	Once through
+	2	...
+		
+Sectioning:
+	0	Each progression is run n times
+	1	Three parts
+
+Chords
+	0					I		C
+	1					IV		F
+	2					V		G
+		0				VIm		Am
+		1				IIm		Dm
+		2				IIIm	Em
+			0			VII		Bb,
+			1
+			2
+
+
+	Numbers in decreasing likelyhood
+
+	yo-encoded				in base 4	numbers in base 3
+
+	 0	00 - special		0			  0
+			00			Actual 0
+			01			4 bit number times four follows
+			10			8 bit number follows.	Example: 57 	= 00 10 00 01 11 01
+				00		16 bit number follows	Example: 1000 	= 00 11 00 00 10 01 11 00 01 00 00 
+				01		Decimal number; integer follows, 10 bits of decimals follow.		Example: 3.142 		= 00 11 01 11 00 10 00 11 10
+				10		Decimal number; integer follows, 20 bits of decimals follow.		Example: 3.141593 	= 00 11 10 11 00 00 10 00 10 10 01 00 01 10 01
+					00	Fraction; numerator follows, denominator follows.					Example: 1/3		= 00 11 11 00 01 11 00
+	 1	01					1			  1
+	 2	10					2			  2
+	 3	11 00				30			 10
+	 4	11 01				31			 11
+	 5	11 10				32			 12
+	 6	11 11 00			330			 20
+	 7	11 11 01			331			 21
+	 8	11 11 10			332			 22
+	 9	11 11 11 00			3330		100
+	10	11 11 11 01			3331		101
+	11	11 11 11 10			3332		102
+	12	11 11 11 11 00		33330		110
+	13	11 11 11 11 01		33331		111
+	14	11 11 11 11 10		33332		112
+	15	11 11 11 11 11 00	333330		120		or use 8-bit encoding with 00 10 prefix: 00 10 00 00 11 11
+	16	11 11 11 11 11 01	333331		121		or use 8-bit encoding with 00 10 prefix: 00 10 00 01 00 00
+	17	11 11 11 11 11 11	333332		122		or use 8-bit encoding with 00 10 prefix: 00 10 00 01 00 01
+
+Musical numbers in decreasing likelihood
+
+	yo-encoded				in base 4	numbers in base 3
+
+	 0	00 - special		0			  0				- nSpecial_	# not used
+	 1	01					1			  1				- n1	= "01"
+	 2	10					2			  2				- n2	= "10"
+	 4	11 00				30			 10				- n4	= "1100"
+	 8	11 01				31			 11				- n8	= "1101"
+	16	11 10				32			 12				- n16	= "1110"
+	 3	11 11 00			330			 20				- n3	= "111100"
+	 7	11 11 01			331			 21				- n7	= "111101"
+	15	11 11 10			332			 22
+	32	11 11 11 00			3330		100 
+	 6	11 11 11 01			3331		101
+	14	11 11 11 10			3332		102
+	64	11 11 11 11 00		33330		110 
+   128	11 11 11 11 01		33331		111
+   256	11 11 11 11 10		33332		112
+
+XXNEW	Musical numbers in decreasing likelihood
+X
+X	yo-encoded				in base 4	numbers in base 3
+X
+X	 1	00					0			  0
+X	 2	01					1			  1
+X	 4	10					2			  2
+X	 8	11 00				30			 10
+X	16	11 01				31			 11
+X	 3	11 10				32			 12
+X	 7	11 11 00			330			 20
+X	15	11 11 01			331			 21
+X	32	11 11 10			332			 22
+X	 6	11 11 11 00			3330		100 
+X	14	11 11 11 01			3331		101
+X	64	11 11 11 10			3332		102
+X   128	11 11 11 11 00		33330		110 
+X   256	11 11 11 11 01		33331		111
+X     5	11 11 11 11 10		33332		112
+
+With Or Without You
+
+Version and functionality
+	00					plain original
+Scale
+	00					C
+Key
+	11 00				D
+Arrangement
+	01					Once through, with length and count numbers
+Chords
+	11 00				4 chords
+	11 11 ... 01 10		22 times
+	00					I		D
+	10					V		A
+	11 00				VIm		Bm
+	01					IV		F
+	01					1 chord
+	11 11 11 11 11 00	64 times	
+	00					I		D
+	11 00				4 chords
+	11 11 ... 01 10		22 times
+	00					I		D
+	10					V		A
+	11 00				VIm		Am
+	01					IV		F
+	
+Whole song
+
+0000110001110011111111111000101100010111111111110000110011111111000010110001
+                                                    |   |        | | |    |
+                                                    |   |        | | |    \F
+                                                    |   |        | | \Bm
+													|   |        | \G
+													|   |        \D
+                                                    |   \24 times
+                                                    \4 chords
+															   |
+															   
+76 bits, 9.5 bytes
+In decimal this is song #918877925012468396209
+
+Chord progression only
+0010110001
+Song #177 of all 4-chord songs
+
+
+
+Number encoding:
+
+XX means one lyck, or two bits
+XXxx means a terminating sequence of lycks
+
+
+NNnn - sequential numbering (1, 2, 3, 4, 5, 6, 7...)
+MMmm - musical numbering (1, 2, 4, 8, 16, 3, 7, 6, 32...)
+DDdd - decimal numbering (3.143, 3.132857...)
+FFff - fractional numbering (2/3, 5/7...)
+CCcc - chord numbering (I, IV, V, vii, iv, SPECIAL)
+
+
+
+
+
+GodelSong format:
+
+
+First lyck has to be 10 or 11
+
+10 - normal: Number + [Chords] follows
+		MMmm : musical number of chords
+		[CCcc CCcc ... CCcc] chords
+11 - special: Number + [Specials]
+		XXxx - number: number of specials
+		00 - chord length if not one bar 
+				00 - half bar
+				10 - 2 bars
+				11 > 	00 - 
+						01 -
+						10 -
+		01 - key if not C
+
+		10 - 
+				00 - 
+				01 -
+				10 - 
+				11 > 	00 - 
+						01 -
+						10 -
+
+
+		11 > 	00 -
+				01 -
+				10 -
+		
+		
+		
+MNum:	Musical numbers in decreasing likelihood
+
+	yo-encoded				in base 4	numbers in base 3
+
+	 1	00					0			  0
+	 2	01					1			  1
+	 4	10					2			  2
+	 8	11 00				30			 10
+	16	11 01				31			 11
+	 3	11 10				32			 12
+	 7	11 11 00			330			 20
+	15	11 11 01			331			 21
+	32	11 11 10			332			 22
+	 6	11 11 11 00			3330		100 
+	14	11 11 11 01			3331		101
+	64	11 11 11 10			3332		102
+   128	11 11 11 11 00		33330		110 
+    24	11 11 11 11 01		33331		111
+    5	11 11 11 11 10		33332		112
+
+
+
+TERMINATED BIT STRINGS FOLLOWS
+
+Any Lyck but the first:
+		00-	key
+			<KKkk>
+		01- repeat progression
+			<NNnn..> - number of times 
+			<chords>
+		01 - repeat next chord
+
+First Lyck:
+	01- I							0x1
+	10- IV							0x2
+	11-	V							0x3
+		00- vi						0x4
+		01- V7						0x5
+		10- iii						0x6
+		11- ii						0x7
+			00-	key
+				<KKkk>
+			01- repeat progression
+				<NNnn..> - number of times 
+				<chords>
+			01 - repeat next chord
+		<LLll..> - chord
+	10 - repeat next chord progression
+		
+
+GodelSong With Or Without You
+
+# key of D
+	111100	# key
+	1101	# D
+# repeat I 32 times
+	111101	# repeat progression
+	
+	
+	
+	
+	
+NEW METHOD
+# I
+	01
+# switch to D
+	0000	# key set
+	1101	# D
+# repeat 32 times
+	0001	# repeat
+	111110	# 32
+# I, V, vi, IV
+	01 11 1100 10
+# repeat 24 times
+	0001	# repeat
+	1111111101	# 24
+# I
+	01
+# repeat 24 times
+	0001	# repeat
+	1111111101	# 24
+# I, V, vi, IV
+	01 11 1100 10
+# repeat 7 times
+	0001	# repeat
+	111100	# 7
+	
+-------------
+TOTAL: 80 bits terminated
+	
+	
+	
+	
+SINGLE BIT HUFFMAN
+
+# has to be 1
+	1
+# I
+	0
+# next
+	1
+# IV
+		0
+
+
+
+
+1			I
+10			IV
+11			V
+110			iv
+		
+	
+	
